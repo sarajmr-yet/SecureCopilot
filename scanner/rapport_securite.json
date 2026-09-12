@@ -1,0 +1,120 @@
+{
+  "project": "C:\\Users\\RYZEN\\secure-copilot\\backend",
+  "total_files": 17,
+  "total_vulnerabilities": 11,
+  "critical": 5,
+  "high": 4,
+  "medium": 2,
+  "results": [
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\error.py",
+      "line": 1,
+      "code": "SECRET_KEY = \"hardcoded123\"",
+      "id": "hardcoded-secret",
+      "message": "Secret hardcode detecte — utilisez des variables d environnement",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\error.py",
+      "line": 2,
+      "code": "os.system(user_input)",
+      "id": "command-injection",
+      "message": "Injection de commande detectee",
+      "severity": "CRITICAL",
+      "cwe": "CWE-78",
+      "fix": "subprocess.run([\"command\", user_input], shell=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test.py",
+      "line": 1,
+      "code": "SECRET_KEY = \"hardcoded123\"",
+      "id": "hardcoded-secret",
+      "message": "Secret hardcode detecte — utilisez des variables d environnement",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test.py",
+      "line": 5,
+      "code": "app.run(debug=True)",
+      "id": "debug-mode",
+      "message": "Mode debug actif en production — desactivez-le",
+      "severity": "MEDIUM",
+      "cwe": "CWE-94",
+      "fix": "app.run(debug=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test.py",
+      "line": 4,
+      "code": "pickle.loads(data)",
+      "id": "pickle-deserialization",
+      "message": "Deserialisation non securisee — evitez pickle",
+      "severity": "CRITICAL",
+      "cwe": "CWE-502",
+      "fix": "import json\ndata = json.loads(user_data)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test.py",
+      "line": 2,
+      "code": "os.system(user_input)",
+      "id": "command-injection",
+      "message": "Injection de commande detectee",
+      "severity": "CRITICAL",
+      "cwe": "CWE-78",
+      "fix": "subprocess.run([\"command\", user_input], shell=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test3.py",
+      "line": 1,
+      "code": "SECRET_KEY = \"hardcoded123\"",
+      "id": "hardcoded-secret",
+      "message": "Secret hardcode detecte — utilisez des variables d environnement",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test3.py",
+      "line": 5,
+      "code": "app.run(debug=True)",
+      "id": "debug-mode",
+      "message": "Mode debug actif en production — desactivez-le",
+      "severity": "MEDIUM",
+      "cwe": "CWE-94",
+      "fix": "app.run(debug=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test3.py",
+      "line": 4,
+      "code": "pickle.loads(data)",
+      "id": "pickle-deserialization",
+      "message": "Deserialisation non securisee — evitez pickle",
+      "severity": "CRITICAL",
+      "cwe": "CWE-502",
+      "fix": "import json\ndata = json.loads(user_data)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\test3.py",
+      "line": 2,
+      "code": "os.system(user_input)",
+      "id": "command-injection",
+      "message": "Injection de commande detectee",
+      "severity": "CRITICAL",
+      "cwe": "CWE-78",
+      "fix": "subprocess.run([\"command\", user_input], shell=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\services\\auth.py",
+      "line": 8,
+      "code": "SECRET_KEY = \"securecopilot_secret_key_2025\"",
+      "id": "hardcoded-secret",
+      "message": "Secret hardcode detecte — utilisez des variables d environnement",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    }
+  ]
+}

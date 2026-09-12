@@ -1,0 +1,7 @@
+backend/venv/ 
+dashboard/node_modules/ 
+extension/secure-copilot/node_modules/ 
+__pycache__/ 
+*.pyc 
+.env 
+*.vsix 

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: securecopilot_db
+    environment:
+      POSTGRES_DB: secure_copilot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - securecopilot_network
+
+  backend:
+    build: ./backend
+    container_name: securecopilot_backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/secure_copilot
+    depends_on:
+      - postgres
+    networks:
+      - securecopilot_network
+    volumes:
+      - ./backend:/app
+
+  dashboard:
+    build: ./dashboard
+    container_name: securecopilot_dashboard
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - securecopilot_network
+
+volumes:
+  postgres_data:
+
+networks:
+  securecopilot_network:
+    driver: bridge

@@ -1,0 +1,107 @@
+rules:
+  - id: sql-injection
+    patterns:
+      - pattern: $DB.execute($QUERY + ...)
+      - pattern: $DB.execute("..." + $VAR)
+    message: "SQL Injection detectee — utilisez des requetes parametrees"
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-89
+      fix: 'cursor.execute("SELECT * FROM users WHERE id = ?", (user_input,))'
+
+  - id: hardcoded-secret
+    patterns:
+      - pattern: SECRET_KEY = "..."
+      - pattern: PASSWORD = "..."
+      - pattern: API_KEY = "..."
+    message: "Secret hardcode detecte — utilisez des variables d environnement"
+    languages: [python]
+    severity: WARNING
+    metadata:
+      cwe: CWE-798
+      fix: 'SECRET_KEY = os.getenv("SECRET_KEY")'
+
+  - id: command-injection
+    patterns:
+      - pattern: os.system($CMD)
+      - pattern: subprocess.call($CMD, shell=True)
+    message: "Injection de commande detectee — evitez shell=True"
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-78
+      fix: 'subprocess.run(["command", user_input], shell=False)'
+
+  - id: pickle-deserialization
+    pattern: pickle.loads($DATA)
+    message: "Deserialisation non securisee — evitez pickle avec des donnees non fiables"
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-502
+      fix: 'import json\ndata = json.loads(user_data)'
+
+  - id: debug-mode
+    pattern: app.run(..., debug=True, ...)
+    message: "Mode debug actif en production — desactivez-le"
+    languages: [python]
+    severity: WARNING
+    metadata:
+      cwe: CWE-94
+      fix: 'app.run(debug=False)'
+
+  - id: xss
+    patterns:
+      - pattern: render_template_string($INPUT)
+      - pattern: Markup($INPUT)
+    message: "XSS detecte — echappez les entrees utilisateur"
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-79
+      fix: 'return escape(user_input)'
+
+  - id: path-traversal
+    patterns:
+      - pattern: open($PATH + $VAR)
+      - pattern: open(".../" + $VAR)
+    message: "Path Traversal detecte — validez les chemins de fichiers"
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-22
+      fix: 'open(os.path.basename(filename))'
+
+  - id: ssrf
+    patterns:
+      - pattern: requests.get($URL)
+      - pattern: requests.post($URL)
+    message: "SSRF potentiel — validez les URLs externes"
+    languages: [python]
+    severity: WARNING
+    metadata:
+      cwe: CWE-918
+      fix: 'requests.get(validate_url(user_url))'
+
+  - id: insecure-random
+    patterns:
+      - pattern: random.random()
+      - pattern: random.randint(...)
+    message: "Generateur aleatoire non securise — utilisez secrets"
+    languages: [python]
+    severity: WARNING
+    metadata:
+      cwe: CWE-338
+      fix: 'import secrets\ntoken = secrets.token_hex(32)'
+
+  - id: xxe
+    patterns:
+      - pattern: ET.fromstring($DATA)
+      - pattern: ET.parse($DATA)
+    message: "XXE potentiel — desactivez les entites externes"
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-611
+      fix: 'ET.fromstring(data, parser=ET.XMLParser(resolve_entities=False))'
