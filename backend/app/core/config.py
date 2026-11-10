@@ -1,9 +1,15 @@
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.models.vulnerability import Base
 
-# Change le mot de passe si différent
-DATABASE_URL = "postgresql://postgres:Sara00..@localhost:5432/secure_copilot"
+load_dotenv()
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:CHANGE_ME@localhost:5432/secure_copilot"
+)
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

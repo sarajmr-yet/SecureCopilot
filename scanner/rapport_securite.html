@@ -92,7 +92,7 @@
         <h1>Rapport de Securite — Secure Copilot</h1>
         <p>Projet : C:\Users\RYZEN\secure-copilot\backend</p>
         <p style="margin-top:4px">
-            Date : 12/09/2026 a 02:07 &nbsp;|&nbsp;
+            Date : 22/09/2026 a 10:24 &nbsp;|&nbsp;
             Genere par : AI-Powered Developer Copilot for Secure Code Generation
         </p>
     </div>
@@ -108,19 +108,19 @@
     <!-- Statistiques -->
     <div class="stats">
         <div class="stat-card files">
-            <div class="stat-number">17</div>
+            <div class="stat-number">20</div>
             <div class="stat-label">Fichiers scannes</div>
         </div>
         <div class="stat-card critical">
-            <div class="stat-number">5</div>
+            <div class="stat-number">12</div>
             <div class="stat-label">Critical</div>
         </div>
         <div class="stat-card high">
-            <div class="stat-number">4</div>
+            <div class="stat-number">7</div>
             <div class="stat-label">High</div>
         </div>
         <div class="stat-card medium">
-            <div class="stat-number">2</div>
+            <div class="stat-number">4</div>
             <div class="stat-label">Medium</div>
         </div>
     </div>
@@ -132,31 +132,31 @@
             <div class="progress-item">
                 <div class="progress-header">
                     <span style="color:#dc3545">CRITICAL</span>
-                    <span>5 / 11</span>
+                    <span>12 / 23</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" 
-                         style="width:45%;background:#dc3545"></div>
+                         style="width:52%;background:#dc3545"></div>
                 </div>
             </div>
             <div class="progress-item">
                 <div class="progress-header">
                     <span style="color:#fd7e14">HIGH</span>
-                    <span>4 / 11</span>
+                    <span>7 / 23</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill"
-                         style="width:36%;background:#fd7e14"></div>
+                         style="width:30%;background:#fd7e14"></div>
                 </div>
             </div>
             <div class="progress-item">
                 <div class="progress-header">
                     <span style="color:#d4a017">MEDIUM</span>
-                    <span>2 / 11</span>
+                    <span>4 / 23</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill"
-                         style="width:18%;background:#ffc107"></div>
+                         style="width:17%;background:#ffc107"></div>
                 </div>
             </div>
         </div>
@@ -194,7 +194,7 @@
         <div class="section-title">
             Vulnerabilites detectees
             <span style="background:#1F4E79;color:white;padding:2px 10px;
-            border-radius:20px;font-size:12px">11</span>
+            border-radius:20px;font-size:12px">23</span>
         </div>
         <table>
             <thead>
@@ -482,6 +482,142 @@ data = json.loads(user_data)</code>
                 padding:3px 6px;border-radius:4px">subprocess.run(["command", user_input], shell=False)</code>
             </td>
         </tr>
+        <tr style="background:#fff8f8">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">vuln.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.7</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">cursor.execute("SELECT * FROM users WHERE id = " + user...</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">sql-injection</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#dc3545;color:white">🔴 CRITICAL</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-89</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">cursor.execute("SELECT * FROM users WHERE id = ?", (use...</code>
+            </td>
+        </tr>
+        <tr style="background:#fff9f5">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">vuln.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.5</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">SECRET_KEY = "mysecret123"</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">hardcoded-secret</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#fd7e14;color:white">🟠 HIGH</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-798</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">SECRET_KEY = os.getenv("SECRET_KEY")</code>
+            </td>
+        </tr>
+        <tr style="background:#fffdf0">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">vuln.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.9</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">app.run(debug=True)</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">debug-mode</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#ffc107;color:#333">🟡 MEDIUM</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-94</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">app.run(debug=False)</code>
+            </td>
+        </tr>
+        <tr style="background:#fff8f8">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">vuln.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.8</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">pickle.loads(data)</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">pickle-deserialization</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#dc3545;color:white">🔴 CRITICAL</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-502</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">import json
+data = json.loads(user_data)</code>
+            </td>
+        </tr>
+        <tr style="background:#fff8f8">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">vuln.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.6</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">os.system(user_input)</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">command-injection</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#dc3545;color:white">🔴 CRITICAL</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-78</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">subprocess.run(["command", user_input], shell=False)</code>
+            </td>
+        </tr>
         <tr style="background:#fff9f5">
             <td>
                 <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
@@ -509,6 +645,196 @@ data = json.loads(user_data)</code>
                 padding:3px 6px;border-radius:4px">SECRET_KEY = os.getenv("SECRET_KEY")</code>
             </td>
         </tr>
+        <tr style="background:#fff8f8">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">test_analyzer.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.7</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">code = 'db.execute("SELECT * FROM users WHERE id = " + ...</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">sql-injection</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#dc3545;color:white">🔴 CRITICAL</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-89</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">cursor.execute("SELECT * FROM users WHERE id = ?", (use...</code>
+            </td>
+        </tr>
+        <tr style="background:#fff9f5">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">test_analyzer.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.13</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">code = 'SECRET_KEY = "hardcoded123"'</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">hardcoded-secret</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#fd7e14;color:white">🟠 HIGH</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-798</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">SECRET_KEY = os.getenv("SECRET_KEY")</code>
+            </td>
+        </tr>
+        <tr style="background:#fff9f5">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">test_analyzer.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.53</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">code = 'SECRET_KEY = "hardcoded123"'</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">hardcoded-secret</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#fd7e14;color:white">🟠 HIGH</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-798</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">SECRET_KEY = os.getenv("SECRET_KEY")</code>
+            </td>
+        </tr>
+        <tr style="background:#fffdf0">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">test_analyzer.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.46</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">code = "app.run(debug=True)"</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">debug-mode</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#ffc107;color:#333">🟡 MEDIUM</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-94</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">app.run(debug=False)</code>
+            </td>
+        </tr>
+        <tr style="background:#fff8f8">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">test_analyzer.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.39</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">code = "pickle.loads(data)"</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">pickle-deserialization</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#dc3545;color:white">🔴 CRITICAL</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-502</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">import json
+data = json.loads(user_data)</code>
+            </td>
+        </tr>
+        <tr style="background:#fff8f8">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">test_analyzer.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.20</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">code = "os.system(user_input)"</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">command-injection</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#dc3545;color:white">🔴 CRITICAL</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-78</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">subprocess.run(["command", user_input], shell=False)</code>
+            </td>
+        </tr>
+        <tr style="background:#fff8f8">
+            <td>
+                <span style="background:#e9ecef;padding:3px 8px;border-radius:6px;
+                font-family:monospace;font-size:12px;font-weight:600">test_analyzer.py</span>
+            </td>
+            <td>
+                <span style="background:#1F4E79;color:white;padding:3px 8px;
+                border-radius:6px;font-size:12px">L.33</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#c0392b;background:#fdf2f2;
+                padding:3px 6px;border-radius:4px">code = "os.system(user_input)"</code>
+            </td>
+            <td style="font-size:12px;font-weight:600;color:#444">command-injection</td>
+            <td>
+                <span style="padding:4px 12px;border-radius:20px;font-size:11px;
+                font-weight:700;background:#dc3545;color:white">🔴 CRITICAL</span>
+            </td>
+            <td>
+                <span style="background:#e3f2fd;color:#1565c0;padding:3px 8px;
+                border-radius:6px;font-size:11px;font-weight:600">CWE-78</span>
+            </td>
+            <td>
+                <code style="font-size:11px;color:#1a7a3a;background:#f0faf4;
+                padding:3px 6px;border-radius:4px">subprocess.run(["command", user_input], shell=False)</code>
+            </td>
+        </tr>
             </tbody>
         </table>
     </div>
@@ -518,7 +844,7 @@ data = json.loads(user_data)</code>
 <div class="footer">
     Genere par <strong>Secure Copilot</strong> — 
     AI-Powered Developer Copilot for Secure Code Generation &nbsp;|&nbsp;
-    12/09/2026
+    22/09/2026
 </div>
 
 </body>

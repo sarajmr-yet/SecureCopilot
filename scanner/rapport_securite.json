@@ -1,10 +1,10 @@
 {
   "project": "C:\\Users\\RYZEN\\secure-copilot\\backend",
-  "total_files": 17,
-  "total_vulnerabilities": 11,
-  "critical": 5,
-  "high": 4,
-  "medium": 2,
+  "total_files": 20,
+  "total_vulnerabilities": 23,
+  "critical": 12,
+  "high": 7,
+  "medium": 4,
   "results": [
     {
       "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\error.py",
@@ -107,6 +107,56 @@
       "fix": "subprocess.run([\"command\", user_input], shell=False)"
     },
     {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\vuln.py",
+      "line": 7,
+      "code": "cursor.execute(\"SELECT * FROM users WHERE id = \" + user_id)",
+      "id": "sql-injection",
+      "message": "SQL Injection detectee — utilisez des requetes parametrees",
+      "severity": "CRITICAL",
+      "cwe": "CWE-89",
+      "fix": "cursor.execute(\"SELECT * FROM users WHERE id = ?\", (user_input,))"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\vuln.py",
+      "line": 5,
+      "code": "SECRET_KEY = \"mysecret123\"",
+      "id": "hardcoded-secret",
+      "message": "Secret hardcode detecte — utilisez des variables d environnement",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\vuln.py",
+      "line": 9,
+      "code": "app.run(debug=True)",
+      "id": "debug-mode",
+      "message": "Mode debug actif en production — desactivez-le",
+      "severity": "MEDIUM",
+      "cwe": "CWE-94",
+      "fix": "app.run(debug=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\vuln.py",
+      "line": 8,
+      "code": "pickle.loads(data)",
+      "id": "pickle-deserialization",
+      "message": "Deserialisation non securisee — evitez pickle",
+      "severity": "CRITICAL",
+      "cwe": "CWE-502",
+      "fix": "import json\ndata = json.loads(user_data)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\vuln.py",
+      "line": 6,
+      "code": "os.system(user_input)",
+      "id": "command-injection",
+      "message": "Injection de commande detectee",
+      "severity": "CRITICAL",
+      "cwe": "CWE-78",
+      "fix": "subprocess.run([\"command\", user_input], shell=False)"
+    },
+    {
       "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\app\\services\\auth.py",
       "line": 8,
       "code": "SECRET_KEY = \"securecopilot_secret_key_2025\"",
@@ -115,6 +165,76 @@
       "severity": "HIGH",
       "cwe": "CWE-798",
       "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\tests\\test_analyzer.py",
+      "line": 7,
+      "code": "code = 'db.execute(\"SELECT * FROM users WHERE id = \" + user_id)'",
+      "id": "sql-injection",
+      "message": "SQL Injection detectee — utilisez des requetes parametrees",
+      "severity": "CRITICAL",
+      "cwe": "CWE-89",
+      "fix": "cursor.execute(\"SELECT * FROM users WHERE id = ?\", (user_input,))"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\tests\\test_analyzer.py",
+      "line": 13,
+      "code": "code = 'SECRET_KEY = \"hardcoded123\"'",
+      "id": "hardcoded-secret",
+      "message": "Secret hardcode detecte — utilisez des variables d environnement",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\tests\\test_analyzer.py",
+      "line": 53,
+      "code": "code = 'SECRET_KEY = \"hardcoded123\"'",
+      "id": "hardcoded-secret",
+      "message": "Secret hardcode detecte — utilisez des variables d environnement",
+      "severity": "HIGH",
+      "cwe": "CWE-798",
+      "fix": "SECRET_KEY = os.getenv(\"SECRET_KEY\")"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\tests\\test_analyzer.py",
+      "line": 46,
+      "code": "code = \"app.run(debug=True)\"",
+      "id": "debug-mode",
+      "message": "Mode debug actif en production — desactivez-le",
+      "severity": "MEDIUM",
+      "cwe": "CWE-94",
+      "fix": "app.run(debug=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\tests\\test_analyzer.py",
+      "line": 39,
+      "code": "code = \"pickle.loads(data)\"",
+      "id": "pickle-deserialization",
+      "message": "Deserialisation non securisee — evitez pickle",
+      "severity": "CRITICAL",
+      "cwe": "CWE-502",
+      "fix": "import json\ndata = json.loads(user_data)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\tests\\test_analyzer.py",
+      "line": 20,
+      "code": "code = \"os.system(user_input)\"",
+      "id": "command-injection",
+      "message": "Injection de commande detectee",
+      "severity": "CRITICAL",
+      "cwe": "CWE-78",
+      "fix": "subprocess.run([\"command\", user_input], shell=False)"
+    },
+    {
+      "file": "C:\\Users\\RYZEN\\secure-copilot\\backend\\tests\\test_analyzer.py",
+      "line": 33,
+      "code": "code = \"os.system(user_input)\"",
+      "id": "command-injection",
+      "message": "Injection de commande detectee",
+      "severity": "CRITICAL",
+      "cwe": "CWE-78",
+      "fix": "subprocess.run([\"command\", user_input], shell=False)"
     }
   ]
 }
