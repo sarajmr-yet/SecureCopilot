@@ -1,8 +1,16 @@
 {
   "name": "secure-copilot",
   "displayName": "Secure Copilot",
-  "description": "AI-Powered Developer Copilot for Secure Code Generation",
+  "description": "AI-powered DevSecOps copilot: detects OWASP vulnerabilities in Python code and reports them to a team dashboard.",
   "version": "0.1.0",
+  "publisher": "sarajamiri",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sarajmr-yet/SecureCopilot"
+  },
+  "icon": "images/icon.png",
+  "keywords": ["security", "python", "owasp", "devsecops", "vulnerability"],
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -16,15 +24,25 @@
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-    {
+      {
         "command": "secureCopilot.analyze",
         "title": "🔐 Secure Copilot: Analyser ce fichier"
-    },
-    {
+      },
+      {
         "command": "secureCopilot.login",
         "title": "🔐 Secure Copilot: Se connecter"
+      }
+    ],
+    "configuration": {
+      "title": "Secure Copilot",
+      "properties": {
+        "secureCopilot.backendUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8000",
+          "description": "URL du backend SecureCopilot (sans / final)."
+        }
+      }
     }
-]
   },
   "scripts": {
     "vscode:prepublish": "webpack --mode production",
@@ -41,6 +59,7 @@
     "@types/ws": "^8.18.1",
     "ts-loader": "^9.6.2",
     "typescript": "^5.0.0",
+    "webpack": "^5.0.0",
     "webpack-cli": "^7.2.3",
     "ws": "^8.21.3"
   }

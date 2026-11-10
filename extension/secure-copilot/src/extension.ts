@@ -1,8 +1,15 @@
 import * as vscode from 'vscode';
 const WebSocketLib = require('ws');
 
-const BACKEND_URL = 'http://127.0.0.1:8000/api/v1/analyze';
-const PROJECT_ID = 1; // ← ID du projet "Backend SecureCopilot"
+// URL du backend : configurable via le paramètre "secureCopilot.backendUrl"
+function getBaseUrl(): string {
+	return vscode.workspace
+		.getConfiguration('secureCopilot')
+		.get<string>('backendUrl', 'http://127.0.0.1:8000')
+		.replace(/\/$/, '');
+}
+
+const PROJECT_ID = 1; // ← ID du projet par défaut
 let authToken: string | undefined;
 let currentUserId: number | undefined;
 let currentProjectId: number | undefined;
@@ -30,6 +37,7 @@ let timeout: NodeJS.Timeout | undefined;
 let vulnerabilityMap: Map<string, any> = new Map();
 let wsConnection: any | undefined;
 let reconnectTimeout: NodeJS.Timeout | undefined;
+
 async function loginUser(context: vscode.ExtensionContext) {
 	const username = await vscode.window.showInputBox({
 		prompt: '🔐 SecureCopilot — Nom d\'utilisateur',
@@ -51,7 +59,7 @@ async function loginUser(context: vscode.ExtensionContext) {
 		formData.append('username', username);
 		formData.append('password', password);
 
-		const response = await fetch('http://127.0.0.1:8000/api/v1/auth/login', {
+		const response = await fetch(`${getBaseUrl()}/api/v1/auth/login`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 			body: formData.toString()
@@ -66,77 +74,75 @@ async function loginUser(context: vscode.ExtensionContext) {
 		authToken = data.access_token;
 
 		// Récupérer les infos du user
-		const meResponse = await fetch('http://127.0.0.1:8000/api/v1/auth/me', {
+		const meResponse = await fetch(`${getBaseUrl()}/api/v1/auth/me`, {
 			headers: { 'Authorization': `Bearer ${authToken}` }
 		});
 		const me = await meResponse.json() as any;
 		currentUserId = me.id;
 
 		// Récupérer les projets du user
-		const projectsResponse = await fetch('http://127.0.0.1:8000/api/v1/auth/projects', {
+		const projectsResponse = await fetch(`${getBaseUrl()}/api/v1/auth/projects`, {
 			headers: { 'Authorization': `Bearer ${authToken}` }
 		});
 		const projectsData = await projectsResponse.json() as any;
 
 		if (projectsData.length === 0) {
-        	vscode.window.showWarningMessage('⚠️ Aucun projet assigné — contactez votre admin');
-       	    return;
-        } else if (projectsData.length === 1) {
-    		currentProjectId = projectsData[0].id;
+			vscode.window.showWarningMessage('⚠️ Aucun projet assigné — contactez votre admin');
+			return;
+		} else if (projectsData.length === 1) {
+			currentProjectId = projectsData[0].id;
 			statusBar.text = `🔐 SecureCopilot | ✅ ${me.username} | 📁 ${projectsData[0].name}`;
 			statusBar.tooltip = `Connecté en tant que ${me.username}`;
 			statusBar.backgroundColor = undefined;
-   			vscode.window.showInformationMessage(
-       		 `✅ Connecté en tant que ${me.username} — Projet : ${projectsData[0].name}`
-   		    );
+			vscode.window.showInformationMessage(
+				`✅ Connecté en tant que ${me.username} — Projet : ${projectsData[0].name}`
+			);
 		} else {
-    	// Plusieurs projets → afficher un menu
-    		const items = projectsData.map((p: any) => ({
-        	 label: `📁 ${p.name}`,
-             description: p.description || '',
-             id: p.id
-    		}));
+			// Plusieurs projets → afficher un menu
+			const items = projectsData.map((p: any) => ({
+				label: `📁 ${p.name}`,
+				description: p.description || '',
+				id: p.id
+			}));
 
-   			const selected = await vscode.window.showQuickPick(items, {
-    placeHolder: 'Choisissez votre projet de travail'
-}) as any;
+			const selected = await vscode.window.showQuickPick(items, {
+				placeHolder: 'Choisissez votre projet de travail'
+			}) as any;
 
-if (!selected) {
-    vscode.window.showWarningMessage('⚠️ Aucun projet sélectionné');
-    return;
-}
+			if (!selected) {
+				vscode.window.showWarningMessage('⚠️ Aucun projet sélectionné');
+				return;
+			}
 
-currentProjectId = selected.id;
-statusBar.text = `🔐 SecureCopilot | ✅ ${me.username} | 📁 ${selected.label}`;
-statusBar.tooltip = `Connecté en tant que ${me.username}`;
-vscode.window.showInformationMessage(
-    `✅ Connecté en tant que ${me.username} — Projet : ${selected.label}`
-);
-        }
-
-		// Sauvegarder le token
-		if (authToken) {5
-   		await context.secrets.store('authToken', authToken);
+			currentProjectId = selected.id;
+			statusBar.text = `🔐 SecureCopilot | ✅ ${me.username} | 📁 ${selected.label}`;
+			statusBar.tooltip = `Connecté en tant que ${me.username}`;
+			statusBar.backgroundColor = undefined;
+			vscode.window.showInformationMessage(
+				`✅ Connecté en tant que ${me.username} — Projet : ${selected.label}`
+			);
 		}
 
-		vscode.window.showInformationMessage(
-			`✅ Connecté en tant que ${me.username} — Projet : ${projectsData[0]?.name || 'Aucun'}`
-		);
+		// Sauvegarder le token
+		if (authToken) {
+			await context.secrets.store('authToken', authToken);
+		}
 
 	} catch (error) {
 		statusBar.text = '🔐 SecureCopilot | ❌ Erreur connexion';
 		vscode.window.showErrorMessage('❌ Erreur de connexion au serveur');
 	}
 }
+
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Secure Copilot is now active!');
 	// Créer la barre de statut
-		statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-		statusBar.text = '🔐 SecureCopilot | ❌ Non connecté';
-		statusBar.tooltip = 'Cliquez pour vous connecter';
-		statusBar.command = 'secureCopilot.login';
-		statusBar.show();
-		context.subscriptions.push(statusBar);
+	statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+	statusBar.text = '🔐 SecureCopilot | ❌ Non connecté';
+	statusBar.tooltip = 'Cliquez pour vous connecter';
+	statusBar.command = 'secureCopilot.login';
+	statusBar.show();
+	context.subscriptions.push(statusBar);
 	// Login au démarrage
 	loginUser(context).then(() => {
 		connectWebSocket(context);
@@ -206,7 +212,7 @@ function connectWebSocket(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	const ws = new WebSocketLib('ws://127.0.0.1:8000/api/v1/ws');
+	const ws = new WebSocketLib(getBaseUrl().replace(/^http/, 'ws') + '/api/v1/ws');
 	wsConnection = ws;
 
 	ws.on('open', () => {
@@ -266,26 +272,26 @@ async function analyzeDocument(document: vscode.TextDocument) {
 	const code = document.getText();
 
 	if (wsConnection && wsConnection.readyState === 1) {
-		wsConnection.send(JSON.stringify({ 
-			code, 
+		wsConnection.send(JSON.stringify({
+			code,
 			language: 'python',
-            file_path: document.fileName,
-            project_id: currentProjectId || PROJECT_ID,
-   			user_id: currentUserId
+			file_path: document.fileName,
+			project_id: currentProjectId || PROJECT_ID,
+			user_id: currentUserId
 		}));
 		return;
 	}
 
 	try {
-		const response = await fetch(BACKEND_URL, {
+		const response = await fetch(`${getBaseUrl()}/api/v1/analyze`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ 
-				code, 
+			body: JSON.stringify({
+				code,
 				language: 'python',
-    			file_path: document.fileName,
-    			project_id: currentProjectId || PROJECT_ID,
-    			user_id: currentUserId
+				file_path: document.fileName,
+				project_id: currentProjectId || PROJECT_ID,
+				user_id: currentUserId
 			})
 		});
 
@@ -310,23 +316,23 @@ async function analyzeDocument(document: vscode.TextDocument) {
 		}
 
 	} catch (error: any) {
-    if (error?.status === 401 || error?.message?.includes('401')) {
-        statusBar.text = '🔐 SecureCopilot | ⚠️ Session expirée';
-        vscode.window.showWarningMessage(
-            '⚠️ Session expirée — Reconnectez-vous',
-            'Se connecter'
-        ).then(action => {
-            if (action === 'Se connecter') {
-                vscode.commands.executeCommand('secureCopilot.login');
-            }
-        });
-    } else if (error?.message?.includes('fetch') || error?.message?.includes('ECONNREFUSED')) {
-        statusBar.text = '🔐 SecureCopilot | 🔴 Backend indisponible';
-        statusBar.tooltip = 'Le serveur SecureCopilot est arrêté';
-    } else {
-        console.error('Secure Copilot error:', error);
-    }
-}
+		if (error?.status === 401 || error?.message?.includes('401')) {
+			statusBar.text = '🔐 SecureCopilot | ⚠️ Session expirée';
+			vscode.window.showWarningMessage(
+				'⚠️ Session expirée — Reconnectez-vous',
+				'Se connecter'
+			).then(action => {
+				if (action === 'Se connecter') {
+					vscode.commands.executeCommand('secureCopilot.login');
+				}
+			});
+		} else if (error?.message?.includes('fetch') || error?.message?.includes('ECONNREFUSED')) {
+			statusBar.text = '🔐 SecureCopilot | 🔴 Backend indisponible';
+			statusBar.tooltip = 'Le serveur SecureCopilot est arrêté';
+		} else {
+			console.error('Secure Copilot error:', error);
+		}
+	}
 }
 
 
@@ -337,33 +343,33 @@ async function enrichWithLLM(
 ) {
 	try {
 		const response = await fetch(
-			'http://127.0.0.1:8000/api/v1/analyze/full',
+			`${getBaseUrl()}/api/v1/analyze/full`,
 			{
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ 
-                code, 
-                language: 'python',
-    			file_path: document.fileName,
-   				project_id: currentProjectId || PROJECT_ID,
-    			user_id: currentUserId
-            })
+				body: JSON.stringify({
+					code,
+					language: 'python',
+					file_path: document.fileName,
+					project_id: currentProjectId || PROJECT_ID,
+					user_id: currentUserId
+				})
 			}
 		);
 
 		if (response.status === 401) {
-    statusBar.text = '🔐 SecureCopilot | ⚠️ Session expirée';
-    vscode.window.showWarningMessage(
-        '⚠️ Session expirée — Reconnectez-vous',
-        'Se connecter'
-    ).then(action => {
-        if (action === 'Se connecter') {
-            vscode.commands.executeCommand('secureCopilot.login');
-        }
-    });
-    return;
-}
-if (!response.ok) { return; } 
+			statusBar.text = '🔐 SecureCopilot | ⚠️ Session expirée';
+			vscode.window.showWarningMessage(
+				'⚠️ Session expirée — Reconnectez-vous',
+				'Se connecter'
+			).then(action => {
+				if (action === 'Se connecter') {
+					vscode.commands.executeCommand('secureCopilot.login');
+				}
+			});
+			return;
+		}
+		if (!response.ok) { return; }
 
 		const data = await response.json() as any;
 		const enriched = data.vulnerabilities || [];

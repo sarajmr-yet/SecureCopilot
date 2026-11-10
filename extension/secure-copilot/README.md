@@ -1,36 +1,27 @@
-# SecureCopilot — AI-Powered DevSecOps Toolchain
+# Secure Copilot
 
-## Description
-SecureCopilot est une extension VS Code qui détecte en temps réel les vulnérabilités de sécurité dans le code Python et propose des corrections automatiques via IA (CodeLlama).
+AI-powered DevSecOps assistant for Python. It analyzes your code for OWASP
+vulnerabilities (SQL injection, `eval`, hardcoded secrets, insecure
+deserialization...) and reports them to a team dashboard.
 
-## Fonctionnalités
-- 🔐 Détection temps réel des vulnérabilités OWASP Top 10
-- 🤖 Explications intelligentes via LLM (CodeLlama)
-- ✅ Corrections automatiques (Quick Fix)
-- 📊 Dashboard de suivi des vulnérabilités
-- 👥 Gestion multi-utilisateurs et multi-projets
+## Features
+- Analyze the current Python file with one command
+- Findings mapped to CWE with severity levels
+- Project-based team workflow (Admin / Developer roles)
+- Optional local AI explanations (Ollama)
 
-## Prérequis
-- Backend SecureCopilot lancé sur http://127.0.0.1:8000
-- Ollama + CodeLlama installés
+## Requirements
+SecureCopilot needs its backend running. From the project repository:
 
-## Utilisation
-1. Installer l'extension
-2. Se connecter avec vos identifiants
-3. Ouvrir un fichier Python
-4. Les vulnérabilités sont détectées automatiquement
+    docker compose up --build
 
-## Vulnérabilités détectées
-- SQL Injection (CWE-89)
-- Command Injection (CWE-78)
-- Hardcoded Secrets (CWE-798)
-- XSS (CWE-79)
-- Path Traversal (CWE-22)
-- SSRF (CWE-918)
-- XXE (CWE-611)
-- Insecure Deserialization (CWE-502)
-- Insecure Random (CWE-338)
-- Debug Mode (CWE-94)
+Then open the dashboard at http://localhost:3000.
 
-## Auteur
-Sara Jamiri — ENSA GCDSTE — PFA 2024/2025
+## Usage
+1. Run **Secure Copilot: Se connecter** and choose your project.
+2. Run **Secure Copilot: Analyser ce fichier** on a Python file.
+
+## Settings
+- `secureCopilot.backendUrl`: backend URL (default `http://127.0.0.1:8000`).
+
+Source: https://github.com/sarajmr-yet/SecureCopilot
