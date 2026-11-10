@@ -113,7 +113,7 @@ export default function Login() {
         </button>
 
         <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '12px', color: '#aaa' }}>
-          SecureCopilot v2.0 — PFA 2025/2026
+          SecureCopilot v2.0
         </div>
       </div>
     </div>

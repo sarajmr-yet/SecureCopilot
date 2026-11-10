@@ -3,7 +3,7 @@
   "displayName": "Secure Copilot",
   "description": "AI-powered DevSecOps copilot: detects OWASP vulnerabilities in Python code and reports them to a team dashboard.",
   "version": "0.1.0",
-  "publisher": "sarajamiri",
+  "publisher": "SaraJMR",
   "license": "MIT",
   "repository": {
     "type": "git",
