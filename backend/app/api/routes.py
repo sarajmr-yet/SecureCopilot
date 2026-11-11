@@ -132,9 +132,9 @@ async def get_stats(
         query = query.filter(Vulnerability.project_id == project_id)
 
     total = query.count()
-    critical = query.filter(Vulnerability.severity == "CRITICAL").count()
-    high = query.filter(Vulnerability.severity == "HIGH").count()
-    medium = query.filter(Vulnerability.severity == "MEDIUM").count()
+    critical = query.filter(Vulnerability.severity == "CRITICAL", Vulnerability.is_fixed == False).count()
+    high = query.filter(Vulnerability.severity == "HIGH", Vulnerability.is_fixed == False).count()
+    medium = query.filter(Vulnerability.severity == "MEDIUM", Vulnerability.is_fixed == False).count()
     fixed = query.filter(Vulnerability.is_fixed == True).count()
 
     return {
